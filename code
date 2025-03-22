@@ -1,0 +1,73 @@
+import art
+import random
+from art import logo
+
+def deal_card():
+    cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+    selected_card=random.choice(cards)
+    return selected_card
+
+def calculate_score(cards):
+    score=sum(cards)
+    if score==21 :
+        return 0
+    if 11 in cards and score>21 :
+        cards.remove(11)
+        cards.append(1)
+    return score
+
+def compare(my_score, comp_score):
+    if my_score==comp_score :
+        return "Its a draw"
+    if comp_score==0:
+        return "The computer has blackjack, You lost"
+    if my_score == 0:
+        return "You have blackjack, You won !"
+    if my_score>21:
+        return"Your score is over 21, you lost"
+    if comp_score>21:
+        return "The computer score is over 21, you win "
+    if my_score>comp_score:
+        return "You win because your score is higher"
+    elif comp_score>my_score:
+        return "You lost because computer has a higher score"
+def blackjack_game() :
+    print (logo)
+    user_cards=[]
+    computer_cards=[]
+    is_game_over=False
+    computer_score=-1
+    user_score=-1
+
+    i=1
+    while i<3 :
+        user_cards.append(deal_card())
+        computer_cards.append(deal_card())
+        i=i+1
+
+    while not is_game_over :
+        user_score= calculate_score(user_cards)
+        computer_score= calculate_score(computer_cards)
+        print(f"Your cards are {user_cards} and your score is {user_score}")
+        print(f"The first card drawn by the computer is : {computer_cards[0]}")
+
+        if user_score == 0 or computer_score==0 or user_score>21 :
+            is_game_over=True
+        else:
+            raspuns=input("Do you want to draw another card? Type 'y' or 'n' ")
+            if raspuns == 'y' :
+                user_cards.append(deal_card())
+            else :
+                is_game_over=True
+
+    while computer_score <17 and computer_score!=0:
+        computer_cards.append(deal_card())
+        computer_score=calculate_score(computer_cards)
+    print (f"your cards were {user_cards} and the computer_cards were{computer_cards}")
+    print(compare(user_score,computer_score))
+
+while input("Do you want to start a blackjack game? Type 'y' or 'n'")=="y":
+    print("\n" * 25)
+    blackjack_game()
+
+
